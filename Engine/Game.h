@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "FrameTimer.h"
 #include "Dude.h"
+#include "Rect.h"
 
 class Game
 {
@@ -44,8 +45,11 @@ private:
 	Graphics gfx;
 	FrameTimer ft;
 	Dude dude;
+	Rect rect;
 	/********************************/
 	/*  User Variables              */
 	float deltaTime;
+	int timer = 255;
+	bool timerUp;
 	/********************************/
 };

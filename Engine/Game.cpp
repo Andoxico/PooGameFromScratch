@@ -41,6 +41,22 @@ void Game::UpdateModel()
 {
 	deltaTime = ft.Mark();
 	dude.Controls(wnd.kbd, deltaTime);
+
+	//Rectangle glowing stuff
+	if (timer >= 255) {
+		timer = 255;
+		timerUp = false;
+	}
+	else if (timer <= 0) {
+		timer = 0;
+		timerUp = true;
+	}
+	if (timerUp) {
+		timer += 2;
+	}
+	else {
+		timer -= 2;
+	}
 }
 
 void Game::ComposeFrame()
