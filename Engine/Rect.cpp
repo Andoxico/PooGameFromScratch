@@ -2,27 +2,27 @@
 
 void Rect::Initialize(float lx, float ly)
 {
-	x = lx;
-	y = ly;
+	x = int(lx);
+	y = int(ly);
 	isEaten = false;
 }
 
 bool Rect::CollisionTest(Dude& dude)
 {
-	float boxLeft = x;
-	float boxRight = x + width;
-	float boxTop = y;
-	float boxBottom = y + height;
+	int boxLeft = x;
+	int boxRight = x + width;
+	int boxTop = y;
+	int boxBottom = y + height;
 
-	float dudeLeft = dude.GetX();
-	float dudeRight = dude.GetX() + dude.width;
-	float dudeTop = dude.GetY();
-	float dudeBottom = dude.GetY() + dude.height;
+	int dudeLeft = int(dude.GetX());
+	int dudeRight = int(dude.GetX() + dude.width);
+	int dudeTop = int(dude.GetY());
+	int dudeBottom = int(dude.GetY() + dude.height);
 
 	if (dudeRight >= boxLeft && 
 		dudeLeft <= boxRight && 
 		dudeBottom >= boxTop && 
-		dudeTop <= boxTop) {
+		dudeTop <= boxBottom) {
 		isEaten = true;
 		barRight += barChange;
 		if (barRight >= Graphics::ScreenWidth - barBuffer) {
@@ -44,7 +44,7 @@ void Rect::DrawBox(Graphics& gfx, int timer)
 {
 	for (int i = int(y); i < int(y + height); i++) {
 		for (int j = int(x); j < int(x + width); j++) {
-			gfx.PutPixel(j, i, r, gb, gb);
+			gfx.PutPixel(j, i, r, timer, timer);
 		}
 	}
 }

@@ -25,7 +25,10 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	ft()
+	ft(),
+	rng(rd()),
+	xDist(30.0f, Graphics::ScreenWidth - 31.0f),
+	yDist(30.0f, Graphics::ScreenHeight - 31.0f)
 {
 }
 
@@ -40,9 +43,20 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	deltaTime = ft.Mark();
+	if (rect.GetIsEaten()) {
+		rect.Initialize(xDist(rng), yDist(rng));
+	}
 	dude.Controls(wnd.kbd, deltaTime);
 
+	tempVariable = rect.CollisionTest(dude);
+
 	//Rectangle glowing stuff
+	if (timerUp) {
+		timer += 2;
+	}
+	else {
+		timer -= 2;
+	}
 	if (timer >= 255) {
 		timer = 255;
 		timerUp = false;
@@ -51,15 +65,11 @@ void Game::UpdateModel()
 		timer = 0;
 		timerUp = true;
 	}
-	if (timerUp) {
-		timer += 2;
-	}
-	else {
-		timer -= 2;
-	}
 }
 
 void Game::ComposeFrame()
 {
+	rect.DrawBar(gfx, Colors::Cyan);
 	dude.Draw(gfx);
+	rect.DrawBox(gfx, timer);
 }

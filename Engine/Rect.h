@@ -13,13 +13,12 @@ public:
 
 private:
 	//Box
-	float x;
-	float y;
-	static constexpr float width = 24;
-	static constexpr float height = 24;
+	int x;
+	int y;
+	static constexpr int width = 24;
+	static constexpr int height = 24;
 	bool isEaten = true;
 	int r = 255;
-	int gb;
 
 	//Bar
 	int barBuffer = 10;
