@@ -39,6 +39,8 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	deltaTime = ft.Mark();
+	dude.Controls(wnd.kbd, deltaTime);
 }
 
 void Game::ComposeFrame()

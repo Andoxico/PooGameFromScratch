@@ -42,9 +42,10 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-	/********************************/
-	/*  User Variables              */
 	FrameTimer ft;
 	Dude dude;
+	/********************************/
+	/*  User Variables              */
+	float deltaTime;
 	/********************************/
 };
