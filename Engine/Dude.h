@@ -7,8 +7,10 @@ class Dude
 public:
 	void Controls(const Keyboard& kbd, float deltaTime);
 	void Draw(Graphics& gfx) const;
-	static constexpr int width = 20;
-	static constexpr int height = 20;
+	float GetX();
+	float GetY();
+	static constexpr float width = 20;
+	static constexpr float height = 20;
 
 private:
 	float x = float((Graphics::ScreenWidth / 2) - (width / 2));
