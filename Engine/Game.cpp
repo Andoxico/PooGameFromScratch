@@ -91,3 +91,8 @@ void Game::DrawStartScreen(int x, int y)
 {
 #include "title(150x175).txt"
 }
+
+void Game::DrawGameOver(int x, int y)
+{
+#include "game_over(84x64).txt"
+}

@@ -41,6 +41,7 @@ private:
 	/********************************/
 	/*  User Functions              */
 	void DrawStartScreen(int x, int y);
+	void DrawGameOver(int x, int y);
 	/********************************/
 private:
 	MainWindow& wnd;
