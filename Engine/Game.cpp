@@ -43,33 +43,51 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	deltaTime = ft.Mark();
-	if (rect.GetIsEaten()) {
-		rect.Initialize(xDist(rng), yDist(rng));
-	}
-	dude.Controls(wnd.kbd, deltaTime);
 
-	tempVariable = rect.CollisionTest(dude);
+	if (gameStarted) {
+		if (rect.GetIsEaten()) {
+			rect.Initialize(xDist(rng), yDist(rng));
+		}
+		dude.Controls(wnd.kbd, deltaTime);
 
-	//Rectangle glowing stuff
-	if (timerUp) {
-		timer += 2;
+		dude.SpeedUp(rect.CollisionTest(dude));
+
+		//Rectangle glowing stuff
+		if (timerUp) {
+			timer += 2;
+		}
+		else {
+			timer -= 2;
+		}
+		if (timer >= 255) {
+			timer = 255;
+			timerUp = false;
+		}
+		else if (timer <= 0) {
+			timer = 0;
+			timerUp = true;
+		}
 	}
 	else {
-		timer -= 2;
-	}
-	if (timer >= 255) {
-		timer = 255;
-		timerUp = false;
-	}
-	else if (timer <= 0) {
-		timer = 0;
-		timerUp = true;
+		if (wnd.kbd.KeyIsPressed(VK_RETURN)) {
+			gameStarted = true;
+		}
 	}
 }
 
 void Game::ComposeFrame()
 {
-	rect.DrawBar(gfx, Colors::Cyan);
-	dude.Draw(gfx);
-	rect.DrawBox(gfx, timer);
+	if (!gameStarted) {
+		DrawStartScreen((Graphics::ScreenWidth / 2) - (150 / 2), (Graphics::ScreenHeight / 2) - (175 / 2));
+	}
+	else {
+		rect.DrawBar(gfx, Colors::Cyan);
+		dude.Draw(gfx);
+		rect.DrawBox(gfx, timer);
+	}
+}
+
+void Game::DrawStartScreen(int x, int y)
+{
+#include "title(150x175).txt"
 }

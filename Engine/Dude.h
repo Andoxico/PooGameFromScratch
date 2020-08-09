@@ -7,6 +7,7 @@ class Dude
 public:
 	void Controls(const Keyboard& kbd, float deltaTime);
 	void Draw(Graphics& gfx) const;
+	void SpeedUp(bool increase);
 	float GetX();
 	float GetY();
 	static constexpr float width = 20;
@@ -17,5 +18,5 @@ private:
 	float y = float((Graphics::ScreenHeight / 2) - (height / 2));
 	float speedLimit = 360.0f;
 	float speedChange = 30.0f;
-	float speed = 240.0f;
+	float speed = 120.0f;
 };

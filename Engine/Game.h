@@ -36,10 +36,11 @@ public:
 	Game& operator=( const Game& ) = delete;
 	void Go();
 private:
-	void ComposeFrame();
 	void UpdateModel();
+	void ComposeFrame();
 	/********************************/
 	/*  User Functions              */
+	void DrawStartScreen(int x, int y);
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -51,10 +52,9 @@ private:
 	/*  User Variables              */
 	float deltaTime;
 	int timer = 255;
-	bool timerUp;
-
-	//This variable will be replaced by a function that uses the output from rect.CollisionTest()
-	bool tempVariable;
+	bool timerUp = false;
+	bool gameStarted = false;
+	bool gameOver = false;
 
 	std::random_device rd;
 	std::mt19937 rng;
