@@ -25,6 +25,8 @@
 #include "Graphics.h"
 #include "FrameTimer.h"
 #include "Dude.h"
+#include "Rect.h"
+#include <random>
 
 class Game
 {
@@ -34,18 +36,31 @@ public:
 	Game& operator=( const Game& ) = delete;
 	void Go();
 private:
-	void ComposeFrame();
 	void UpdateModel();
+	void ComposeFrame();
 	/********************************/
 	/*  User Functions              */
+	void DrawStartScreen(int x, int y);
+	void DrawGameOver(int x, int y);
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	FrameTimer ft;
 	Dude dude;
+	Rect rect;
 	/********************************/
 	/*  User Variables              */
 	float deltaTime;
+	int timer = 255;
+	bool timerUp = false;
+	bool gameStarted = false;
+	bool gameOver = false;
+
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_real_distribution<float> xDist;
+	std::uniform_real_distribution<float> yDist;
+	std::uniform_real_distribution<float> vDist;
 	/********************************/
 };

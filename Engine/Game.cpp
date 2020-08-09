@@ -25,7 +25,10 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	ft()
+	ft(),
+	rng(rd()),
+	xDist(30.0f, Graphics::ScreenWidth - 31.0f),
+	yDist(30.0f, Graphics::ScreenHeight - 31.0f)
 {
 }
 
@@ -40,10 +43,56 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	deltaTime = ft.Mark();
-	dude.Controls(wnd.kbd, deltaTime);
+
+	if (gameStarted) {
+		if (rect.GetIsEaten()) {
+			rect.Initialize(xDist(rng), yDist(rng));
+		}
+		dude.Controls(wnd.kbd, deltaTime);
+
+		dude.SpeedUp(rect.CollisionTest(dude));
+
+		//Rectangle glowing stuff
+		if (timerUp) {
+			timer += 2;
+		}
+		else {
+			timer -= 2;
+		}
+		if (timer >= 255) {
+			timer = 255;
+			timerUp = false;
+		}
+		else if (timer <= 0) {
+			timer = 0;
+			timerUp = true;
+		}
+	}
+	else {
+		if (wnd.kbd.KeyIsPressed(VK_RETURN)) {
+			gameStarted = true;
+		}
+	}
 }
 
 void Game::ComposeFrame()
 {
-	dude.Draw(gfx);
+	if (!gameStarted) {
+		DrawStartScreen((Graphics::ScreenWidth / 2) - (150 / 2), (Graphics::ScreenHeight / 2) - (175 / 2));
+	}
+	else {
+		rect.DrawBar(gfx, Colors::Cyan);
+		dude.Draw(gfx);
+		rect.DrawBox(gfx, timer);
+	}
+}
+
+void Game::DrawStartScreen(int x, int y)
+{
+#include "title(150x175).txt"
+}
+
+void Game::DrawGameOver(int x, int y)
+{
+#include "game_over(84x64).txt"
 }
