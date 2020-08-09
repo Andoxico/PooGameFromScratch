@@ -26,6 +26,7 @@
 #include "FrameTimer.h"
 #include "Dude.h"
 #include "Rect.h"
+#include "Poo.h"
 #include <random>
 
 class Game
@@ -51,6 +52,11 @@ private:
 	Rect rect;
 	/********************************/
 	/*  User Variables              */
+	//Poo Stuff
+	static constexpr int nPoos = 9;
+	int poosVisible = 3;
+	Poo poo[nPoos];
+
 	float deltaTime;
 	int timer = 255;
 	bool timerUp = false;

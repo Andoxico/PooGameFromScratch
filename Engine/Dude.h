@@ -7,7 +7,7 @@ class Dude
 public:
 	void Controls(const Keyboard& kbd, float deltaTime);
 	void Draw(Graphics& gfx) const;
-	void SpeedUp(bool increase);
+	void SpeedUp();
 	float GetX();
 	float GetY();
 	static constexpr float width = 20;

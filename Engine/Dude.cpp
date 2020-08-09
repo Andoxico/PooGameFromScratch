@@ -41,14 +41,12 @@ void Dude::Draw(Graphics& gfx) const
 #include "face(20x20).txt"
 }
 
-void Dude::SpeedUp(bool increase)
+void Dude::SpeedUp()
 {
-	if (increase) {
-		speed += speedChange;
+	speed += speedChange;
 
-		if (speed > speedLimit) {
-			speed = speedLimit;
-		}
+	if (speed > speedLimit) {
+		speed = speedLimit;
 	}
 }
 

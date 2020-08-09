@@ -28,8 +28,17 @@ Game::Game( MainWindow& wnd )
 	ft(),
 	rng(rd()),
 	xDist(30.0f, Graphics::ScreenWidth - 31.0f),
-	yDist(30.0f, Graphics::ScreenHeight - 31.0f)
+	yDist(30.0f, Graphics::ScreenHeight - 31.0f),
+	vDist(-float(Poo::GetVectorLimit()), float(Poo::GetVectorLimit()))
 {
+	for (int i = 0; i < nPoos; i++) {
+		if (i < poosVisible) {
+			poo[i].Initialize(xDist(rng), yDist(rng), vDist(rng) * 4.5f, vDist(rng) * 4.5f, true);
+		}
+		else {
+			poo[i].Initialize(xDist(rng), yDist(rng), vDist(rng) * 4.5f, vDist(rng) * 4.5f, false);
+		}
+	}
 }
 
 void Game::Go()
@@ -42,17 +51,40 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	//Records the time the last frame took to complete
 	deltaTime = ft.Mark();
 
+	//Rectangle
 	if (gameStarted) {
 		if (rect.GetIsEaten()) {
 			rect.Initialize(xDist(rng), yDist(rng));
 		}
-		dude.Controls(wnd.kbd, deltaTime);
 
-		dude.SpeedUp(rect.CollisionTest(dude));
+		if (!gameOver) {
+			//Poos
+			for (int i = 0; i < nPoos; i++) {
+				poo[i].Update(deltaTime);
+				if (poo[i].CollisionTest(dude)) {
+					gameOver = true;
+					break;
+				}
+			}
 
-		//Rectangle glowing stuff
+			//Dude
+			dude.Controls(wnd.kbd, deltaTime);
+			if (rect.CollisionTest(dude)) {
+				dude.SpeedUp();
+				poosVisible += 2;
+
+				for (int i = poosVisible - 2; i < poosVisible; i++) {
+					if (i < nPoos) {
+						poo[i].SetIsVisible();
+					}
+				}
+			}
+		}
+
+		//Rectangle glowing stuff (persists after game over)
 		if (timerUp) {
 			timer += 2;
 		}
@@ -82,8 +114,17 @@ void Game::ComposeFrame()
 	}
 	else {
 		rect.DrawBar(gfx, Colors::Cyan);
-		dude.Draw(gfx);
 		rect.DrawBox(gfx, timer);
+		dude.Draw(gfx);
+		for (int i = 0; i < nPoos; i++) {
+			if (poo[i].GetIsVisible()) {
+				poo[i].Draw(gfx);
+			}
+		}
+	}
+
+	if (gameOver) {
+		DrawGameOver((Graphics::ScreenWidth / 2) - (84 / 2), (Graphics::ScreenHeight / 2) - (64 / 2));
 	}
 }
 
